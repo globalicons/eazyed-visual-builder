@@ -4,6 +4,8 @@ import { Container } from "./user/Container";
 import { Card as UserCard } from "./user/Card";
 import { Button } from "./user/Button";
 import { Text } from "./user/Text";
+import { Image }from "./user/Image";
+
 
 const { Title } = Typography;
 
@@ -46,6 +48,17 @@ export const Toolbox = () => {
           >
             Card
           </AntButton>
+
+{/* new image */}
+          <AntButton
+            ref={(ref) => connectors.create(ref, <Image />)}
+            type="dashed"
+            block
+          >
+            Image
+          </AntButton>
+
+
         </Space>
       </Card>
     </Space>
