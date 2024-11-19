@@ -1,58 +1,53 @@
-import styled from 'styled-components';
-import { Element, useEditor } from '@craftjs/core';
-import { Text } from './Text';
-import { Button } from './Button';
-import { Container } from './Container';
+import { Element, useEditor } from "@craftjs/core";
+import { Button as AntButton, Typography, Space, Card } from "antd";
+import { Container } from "./user/Container";
+import { Card as UserCard } from "./user/Card";
+import { Button } from "./user/Button";
+import { Text } from "./user/Text";
 
-const ToolboxDiv = styled.div`
-  width: 100%;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: #f3f3f3;
-  border-bottom: 1px solid #ccc;
-`;
-
-const ToolboxItem = styled.div`
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: move;
-  background-color: white;
-  &:hover {
-    background-color: #f1f1f1;
-  }
-`;
+const { Title } = Typography;
 
 export const Toolbox = () => {
   const { connectors } = useEditor();
 
   return (
-    <ToolboxDiv>
-      <h3>Drag to add</h3>
-      <ToolboxItem
-        ref={ref => connectors.create(ref, 
-          <Text text="New text" fontSize={16} />
-        )}
-      >
-        Add Text
-      </ToolboxItem>
-      <ToolboxItem
-        ref={ref => connectors.create(ref, 
-          <Button text="New Button" size="small" />
-        )}
-      >
-        Add Button
-      </ToolboxItem>
-      <ToolboxItem
-        ref={ref => connectors.create(ref, 
-          <Element canvas is={Container} padding={20} background="#ffffff">
-            <Text text="Container" fontSize={14} />
-          </Element>
-        )}
-      >
-        Add Container
-      </ToolboxItem>
-    </ToolboxDiv>
+    <Space direction="vertical" style={{ width: '100%' }} size="large">
+      <Title level={4}>Components</Title>
+      <Card size="small">
+        <Space direction="vertical" style={{ width: '100%' }} size="small">
+          <AntButton
+            ref={(ref) => connectors.create(ref, <Button size="small">Click me</Button>)}
+            type="dashed"
+            block
+          >
+            Button
+          </AntButton>
+          
+          <AntButton
+            ref={(ref) => connectors.create(ref, <Text text="Hi world" />)}
+            type="dashed"
+            block
+          >
+            Text
+          </AntButton>
+          
+          <AntButton
+            ref={(ref) => connectors.create(ref, <Element is={Container} padding={20} canvas />)}
+            type="dashed"
+            block
+          >
+            Container
+          </AntButton>
+          
+          <AntButton
+            ref={(ref) => connectors.create(ref, <UserCard />)}
+            type="dashed"
+            block
+          >
+            Card
+          </AntButton>
+        </Space>
+      </Card>
+    </Space>
   );
-}; 
+};
