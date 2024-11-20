@@ -6,6 +6,8 @@ import { Editor, Frame, Element } from "@craftjs/core";
 import { Button } from "./components/user/Button";
 import { Text } from "./components/user/Text";
 import { Container } from "./components/user/Container";
+import { Image }from "./components/user/Image";
+
 
 const { Sider, Content } = Layout;
 
@@ -14,7 +16,7 @@ export default function App() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Editor resolver={{ Card, Button, Container, Text, CardTop, CardBottom }}>
+      <Editor resolver={{ Card, Button, Container, Text, CardTop, CardBottom, Image }}>
         <Sider
           width={300}
           style={{
@@ -39,6 +41,7 @@ export default function App() {
               >
                 <Card />
                 <Button size="small" variant="outlined">Click</Button>
+                
                 <Text size="small" text="Hi world!" />
                 <Element 
                   is={Container} 
@@ -46,6 +49,14 @@ export default function App() {
                   background={token.colorBgLayout} 
                   canvas
                 >
+                  <Element
+                    is={Image}
+                    
+                    canvas
+                  >
+
+
+                  </Element>
                   <Text size="small" text="It's me again!" />
                 </Element>
               </Element>
