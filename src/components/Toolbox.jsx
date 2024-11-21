@@ -5,7 +5,7 @@ import { Card as UserCard } from "./user/Card";
 import { Button } from "./user/Button";
 import { Text } from "./user/Text";
 import { Image }from "./user/Image";
-
+import { Delete } from "./user/Delete";
 
 const { Title } = Typography;
 
@@ -49,7 +49,7 @@ export const Toolbox = () => {
             Card
           </AntButton>
 
-{/* new image */}
+          {/* new image */}
           <AntButton
             ref={(ref) => connectors.create(ref, <Image />)}
             type="dashed"
@@ -58,6 +58,8 @@ export const Toolbox = () => {
             Image
           </AntButton>
 
+          {/* Delete button */}
+          <Delete/>
 
         </Space>
       </Card>

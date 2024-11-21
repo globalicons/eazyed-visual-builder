@@ -8,7 +8,7 @@ import { Text } from "./components/user/Text";
 import { Container } from "./components/user/Container";
 import { Image } from "./components/user/Image";
 import { Topbar } from "./components/user/Topbar";
-
+import {Delete } from "./components/user/Delete";
 
 const { Sider, Content } = Layout;
 
