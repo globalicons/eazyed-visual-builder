@@ -7,6 +7,7 @@ import { Button } from "./components/user/Button";
 import { Text } from "./components/user/Text";
 import { Container } from "./components/user/Container";
 import { Image }from "./components/user/Image";
+import {Delete } from "./components/user/Delete";
 
 
 const { Sider, Content } = Layout;

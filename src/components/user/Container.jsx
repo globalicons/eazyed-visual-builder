@@ -3,9 +3,9 @@ import { theme } from 'antd';
 
 export const Container = ({ background, padding = 0, children }) => {
   const {
-    connectors: { connect, drag },
-  } = useNode((node) => ({
-    children: node.data.nodes
+    connectors: { connect, drag }, hasSelectedNode,
+  } = useNode((state) => ({
+    hasSelectedNode: state.events.selected,
   }));
   
   const { token } = theme.useToken();
@@ -13,6 +13,7 @@ export const Container = ({ background, padding = 0, children }) => {
   return (
     <div
       ref={(ref) => connect(drag(ref))}
+      className={hasSelectedNode ? "node-selected": ""}
       style={{ 
         margin: "5px 0", 
         padding: `${padding}px`,
