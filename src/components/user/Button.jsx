@@ -15,14 +15,17 @@ export const Button = ({ size, variant, color, children }) => {
   const [editable, setEditable] = useState(false);
 
   useEffect(() => {
-    !hasSelectedNode && setEditable(false);
+    console.log("Selection state for Button:", hasSelectedNode); // Debug selection state
+    if (!hasSelectedNode) setEditable(false);
   }, [hasSelectedNode]);
 
   return (
     <div
       ref={(ref) => connect(drag(ref))}
       onClick={() => setEditable(true)}
-      style={{ display: "inline-block" }}
+      style={{ display: "inline-block",
+        border: hasSelectedNode ? "2px solid red" : "1px solid transparent",
+       }}
     >
       <AntDButton
         size={size}

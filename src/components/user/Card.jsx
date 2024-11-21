@@ -4,13 +4,21 @@ import { Button } from "./Button";
 import { Container } from "./Container";
 import { Element, useNode } from "@craftjs/core";
 import { Card as AntCard } from 'antd';
+import { useEffect, useState } from "react";
 
 export const CardTop = ({ children }) => {
   const {
     connectors: { connect },
-  } = useNode();
+    hasSelectedNode,
+  } = useNode((state) => ({
+    hasSelectedNode: state.events.selected,
+  }));
+
+
   return (
-    <div ref={connect} className="text-only">
+    <div ref={connect} 
+      className={hasSelectedNode ? "node-selected" : ""}
+    >
       {children}
     </div>
   );
@@ -27,8 +35,13 @@ CardTop.craft = {
 export const CardBottom = ({ children }) => {
   const {
     connectors: { connect },
-  } = useNode();
-  return <div ref={connect}>{children}</div>;
+    hasSelectedNode,
+  } = useNode((state) => ({hasSelectedNode: state.events.selected,}));
+
+
+  return <div ref={connect}
+          className={hasSelectedNode ? "node-selected" : ""}
+  >{children}</div>;
 };
 
 CardBottom.craft = {
@@ -40,6 +53,21 @@ CardBottom.craft = {
 };
 
 export const Card = ({ background, padding = 20 }) => {
+  const {
+    connectors: { connect },
+    hasSelectedNode,
+    actions: { setProp },
+  } = useNode((state) => ({
+    hasSelectedNode: state.events.selected,
+  }));
+
+  const [editable, setEditable] = useState(false);
+
+  useEffect(() => {
+    if (!hasSelectedNode) setEditable(false);
+  }, [hasSelectedNode]);
+
+
   return (
     <AntCard style={{ background, padding }}>
       <Element id="text" is={CardTop} canvas>
@@ -56,4 +84,8 @@ export const Card = ({ background, padding = 20 }) => {
       </Element>
     </AntCard>
   );
+};
+
+Card.craft = {
+  displayName: "Card",
 };
