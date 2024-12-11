@@ -10,8 +10,7 @@ export const Topbar = () => {
   }));
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState();
-  const [stateToLoad, setStateToLoad] = useState(null);
+  const [stateToLoad, setStateToLoad] = useState("");
 
   return (
     <div
@@ -32,27 +31,34 @@ export const Topbar = () => {
           />
         </Col>
         <Button
-          className="copy-state-btn"
           size="small"
           type="default"
           onClick={() => {
-            const json = query.serialize();
-            copy(lz.encodeBase64(lz.compress(json)));
-            notification.success({ message: "State copied to clipboard" });
+            try {
+              const json = query.serialize(); // Fetch serialized state
+              console.log("Serialized State:", json); // Debugging log
+              if (!json || json === "{}") {
+                throw new Error("Editor state is empty or not available");
+              }
+              const compressed = lz.encodeBase64(lz.compress(json)); // Compress and encode
+              copy(compressed); // Copy to clipboard
+              notification.success({ message: "State copied to clipboard" });
+            } catch (err) {
+              console.error("Error copying state:", err);
+              notification.error({
+                message: "Error copying state",
+                description: err.message,
+              });
+            }
           }}
         >
           Save Output
         </Button>
-        <Button
-          className="load-state-btn"
-          size="small"
-          type="default"
-          onClick={() => setModalOpen(true)}
-        >
+        <Button size="small" type="default" onClick={() => setModalOpen(true)}>
           Preview
         </Button>
         <Modal
-          title="Load state"
+          title="Load State"
           open={modalOpen}
           onCancel={() => setModalOpen(false)}
           footer={[
@@ -63,34 +69,36 @@ export const Topbar = () => {
               key="load"
               type="primary"
               onClick={() => {
-                setModalOpen(false);
-                const json = lz.decompress(lz.decodeBase64(stateToLoad));
-                actions.deserialize(json);
-                notification.success({ message: "State loaded" });
+                try {
+                  const decompressed = lz.decompress(
+                    lz.decodeBase64(stateToLoad)
+                  );
+                  console.log("Decompressed State:", decompressed); // Debugging log
+                  actions.deserialize(decompressed); // Load state into editor
+                  notification.success({
+                    message: "State loaded successfully",
+                  });
+                  setModalOpen(false);
+                } catch (err) {
+                  console.error("Error loading state:", err);
+                  notification.error({
+                    message: "Error loading state",
+                    description: "Please ensure the input is valid.",
+                  });
+                }
               }}
             >
               Load
-            </Button>
+            </Button>,
           ]}
         >
           <Input.TextArea
-            placeholder='Paste the contents that was copied from the "Copy Current State" button'
+            placeholder="Paste the copied state here"
             value={stateToLoad}
             onChange={(e) => setStateToLoad(e.target.value)}
             rows={4}
           />
         </Modal>
-        {/* <Col>
-          <Button
-            size="small"
-            type="default"
-            onClick={() => {
-              console.log(query.serialize());
-            }}
-          >
-            Serialize JSON to console
-          </Button>
-        </Col> */}
       </Row>
     </div>
   );

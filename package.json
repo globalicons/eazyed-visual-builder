@@ -14,9 +14,12 @@
     "antd": "^5.22.1",
     "copy-to-clipboard": "^3.3.3",
     "lzutf8": "^0.6.3",
+    "nanoid": "^5.0.9",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-contenteditable": "^3.3.7",
     "react-dom": "^18.3.1",
+    "react-draggable": "^4.4.6",
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
